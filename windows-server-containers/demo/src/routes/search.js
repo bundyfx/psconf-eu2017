@@ -1,7 +1,4 @@
 const util = require('util');
-
-var express = require('express')
-var bodyParser = require('body-parser')
 var request = require('request')
 
 var key = process.env.apikey

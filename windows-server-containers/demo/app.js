@@ -1,6 +1,5 @@
 var search = require('./src/routes/search.js');
 var express = require('express')
-var bodyParser = require('body-parser')
 
 //create a new express object
 var app = express()
@@ -30,7 +29,6 @@ app.get('/search', function (req, res){
       //send the user to the search page with the results
       res.render('search', { results: result.data, query: req.query.searchf });
     }
-    console.log(result.data)
     console.log('Found ' + result.totalResults + ' beers')
 
   })
