@@ -1,22 +1,25 @@
 skip_commits:
   message: /updated readme.*/
 
-os: "WMF 5"
+os: "Windows Server 2016"
 
 install:
-  - ps: Install-PackageProvider Nuget -ForceBootstrap -Force
-  - ps: Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-  - ps: Install-Module Pester -Force
-  - ps: Install-Module PsScriptAnalyzer -force
+  - ps: Install.ps1
 
 build: false
 
 version: '0.1.{build}'
 
+before_test:
+  - ps: BeforeTests.ps1
+
 test_script:
   - ps: Invoke-Pester .\developers-world\demo\Tests\linting.ps1
   - ps: . .\developers-world\demo\Tests\appveyor.pester.ps1 -Test
   - ps: . .\developers-world\demo\Tests\appveyor.pester.ps1 -Finalize
+
+after_test:
+  - ps: AfterTests.ps1
 
 branches:
   only:
