@@ -1,7 +1,7 @@
 skip_commits:
   message: /updated readme.*/
 
-os: "Windows Server 2016"
+os: "WMF5"
 
 install:
   - ps: Install.ps1
