@@ -4,14 +4,14 @@ skip_commits:
 os: "WMF 5"
 
 install:
-  - ps: Install.ps1
+  - ps: .\developers-world\demo\Appveyor\Install.ps1
 
 build: false
 
 version: '0.1.{build}'
 
 before_test:
-  - ps: BeforeTests.ps1
+  - ps: .\developers-world\demo\Appveyor\BeforeTests.ps1
 
 test_script:
   - ps: Invoke-Pester .\developers-world\demo\Tests\linting.ps1
@@ -19,7 +19,7 @@ test_script:
   - ps: . .\developers-world\demo\Tests\appveyor.pester.ps1 -Finalize
 
 after_test:
-  - ps: AfterTests.ps1
+  - ps: .\developers-world\demo\Appveyor\AfterTests.ps1
 
 branches:
   only:
