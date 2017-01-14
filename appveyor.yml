@@ -10,9 +10,6 @@ build: false
 
 version: '0.1.{build}'
 
-before_test:
-  - ps: .\developers-world\demo\Appveyor\BeforeTests.ps1
-
 test_script:
   - ps: .\developers-world\demo\tests\integration\integration.ps1
   - ps: Invoke-Pester .\developers-world\demo\Tests\linting.ps1
