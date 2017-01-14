@@ -9,6 +9,6 @@ Describe "Valid Configuration Data" {
         { $ConfigurationData } | Should not throw
     }
     It "All entries should contain a Role value" {
-        $ConfigurationData.Values | % {$Psitem.Keys.Where{$Psitem -eq 'Role'} | Should be $ConfigurationData.Values.Length}
+        $ConfigurationData.Values | Foreach-Object { $Psitem.Keys.Where{ $Psitem -eq 'Role'} | Should be $ConfigurationData.Values.Length }
     }
 }
