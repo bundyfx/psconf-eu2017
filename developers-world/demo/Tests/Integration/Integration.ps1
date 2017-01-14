@@ -1,14 +1,12 @@
-Set-Location (Join-Path . -ChildPath 'developers-world\demo\ConfigurationData' -Resolve)
-
-$ConfigurationData = Import-LocalizedData -Filename 'ConfigurationData.psd1'
+Set-Location .\developers-world\demo\ConfigurationData\
+Import-LocalizedData -BaseDirectory . -FileName ConfigurationData.psd1 -ov ConfigurationData | Out-Null
 
 #Ensure Configuration Data is Valid
-
 Describe "Valid Configuration Data" {
     It "Should be a valid Hashtable" {
-        { $ConfigurationData } | Should not throw
+        $ConfigurationData  | Should BeOfType Hashtable
     }
     It "All entries should contain a Role value" {
-        $ConfigurationData.Values | Foreach-Object { $Psitem.Keys.Where{ $Psitem -eq 'Role'} | Should be $ConfigurationData.Values.Length }
+        $ConfigurationData.Values.Keys.Where{$Psitem -eq 'Role'}.Count | Should be $ConfigurationData.Values.Length
     }
 }

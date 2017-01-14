@@ -14,9 +14,8 @@ before_test:
   - ps: .\developers-world\demo\Appveyor\BeforeTests.ps1
 
 test_script:
+  - ps: .\developers-world\demo\tests\integration\integration.ps1
   - ps: Invoke-Pester .\developers-world\demo\Tests\linting.ps1
-  - ps: . .\developers-world\demo\Tests\appveyor.pester.ps1 -Test
-  - ps: . .\developers-world\demo\Tests\appveyor.pester.ps1 -Finalize
 
 after_test:
   - ps: .\developers-world\demo\Appveyor\AfterTests.ps1
@@ -38,3 +37,4 @@ deploy:
   bucket: powershell-dsc-mofs
   region: eu-west-1
   artifact: Mofs.zip
+  folder: Mofs
