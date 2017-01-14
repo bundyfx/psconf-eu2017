@@ -1,11 +1,11 @@
-$Modules = Get-ChildItem $pwd.Path -Filter '*.ps*1' -Recurse
+$Modules = Get-ChildItem $pwd.Path -Filter '*.ps1' -Recurse
 $Rules = Get-ScriptAnalyzerRule
-Describe 'Testing all Modules in this Repo to be be correctly formatted' {
+Describe "Linting all .ps1 files" {
     foreach ($module in $modules) {
-        Context "Testing Module  – $($module.BaseName) for Standard Processing" {
+        Context "Testing Module | $($module.BaseName) for Standard Processing" {
             foreach ($rule in $rules) {
-                It "passes the PSScriptAnalyzer Rule $rule" {
-                    (Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
+                It "Passes rule | $($Rule.rulename)" {
+                    (Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName).Count | Should Be 0
                 }
             }
         }
