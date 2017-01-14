@@ -26,7 +26,7 @@ branches:
     - master
 
 artifacts:
-  - path: .\developers-world\demo\Generation\Output\Mofs.zip
+  - path: .\developers-world\demo\Appveyor\Output\Mofs.zip
     name: Mofs.zip
 
 deploy:
