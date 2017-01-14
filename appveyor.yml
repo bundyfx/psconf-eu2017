@@ -37,4 +37,4 @@ deploy:
     secure: x+UEfAU25wSYdIi9yPYXx05vM3RohG6CKXArzz2yHWw+q2EAkeqluJwWvxxJRU1j
   bucket: powershell-dsc-mofs
   region: eu-west-1
-  artifact: Roles.zip
+  artifact: Mofs.zip
