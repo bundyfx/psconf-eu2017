@@ -7,7 +7,7 @@ param(
     [switch]$Finalize,
     [switch]$Test,
     [string]$ProjectRoot = $ENV:APPVEYOR_BUILD_FOLDER,
-    [string]$TestPath = "$ProjectRoot\developers-world\tests\"
+    [string]$TestPath = "$ProjectRoot\developers-world\demo\tests\"
 )
 
 #Initialize some variables, move to the project root
