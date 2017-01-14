@@ -10,4 +10,4 @@ Import-Module '.\developers-world\demo\Generation\Mof\ConfigurationScript.ps1'
 Main -OutputPath $OutputPath.Fullname -ConfigurationData '.\developers-world\demo\ConfigurationData\ConfigurationData.psd1'
 
 #Create a Zip from the Mof output
-Compress-Archive '.\developers-world\demo\Appveyor\Output' -DestinationPath '.\developers-world\demo\Generation\Mof\Output\Mofs.zip' -Verbose
+Compress-Archive $OutputPath.Fullname -DestinationPath (Join-Path $OutputPath.Fullname -Childpath 'Mofs.zip') -Verbose
