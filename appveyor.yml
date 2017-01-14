@@ -1,7 +1,7 @@
 skip_commits:
   message: /updated readme.*/
 
-os: "WMF5"
+os: "WMF 5"
 
 install:
   - ps: Install.ps1
