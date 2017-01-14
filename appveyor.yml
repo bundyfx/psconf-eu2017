@@ -24,3 +24,17 @@ after_test:
 branches:
   only:
     - master
+
+artifacts:
+  - path: .\developers-world\demo\Generation\Output\Mofs.zip
+    name: Mofs.zip
+
+deploy:
+  provider: S3
+  access_key_id:
+    secure: jjAg/q+OeFVBnXwDqdshl8thYbfLDRI9L9oSZ86KML4=
+  secret_access_key:
+    secure: x+UEfAU25wSYdIi9yPYXx05vM3RohG6CKXArzz2yHWw+q2EAkeqluJwWvxxJRU1j
+  bucket: powershell-dsc-mofs
+  region: eu-west-1
+  artifact: Roles.zip
