@@ -6,3 +6,6 @@ Main -OutputPath $ProjectRoot -ConfigurationData '.\developers-world\demo\Config
 
 #Create a Zip from the Mof output (Include Modules)
 Get-Childitem -Path "$ProjectRoot\yumtop.mof","$ProjectRoot\gopher-world.mof","$ProjectRoot\cChoco","$ProjectRoot\xPSDesiredStateConfiguration" -Recurse | Compress-Archive -DestinationPath $ProjectRoot\Mofs.zip
+
+#Publish zip as artifact
+Push-AppveyorArtifact $ProjectRoot\Mofs.zip -Verbose
