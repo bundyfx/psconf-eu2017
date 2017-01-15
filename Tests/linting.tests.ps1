@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 
-$Modules = Get-ChildItem $pwd.Path -Filter '*.ps1' -Recurse -Exclude 'Install.ps1'
+$Modules = Get-ChildItem .\developers-world\ -Filter '*.ps1' -Recurse -Exclude 'Install.ps1'
 $Rules = Get-ScriptAnalyzerRule
 Describe "Linting all .ps1 files" {
     foreach ($module in $modules) {
