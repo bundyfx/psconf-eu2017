@@ -8,4 +8,4 @@ Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 Install-Module Pester, PsScriptAnalyzer, cChoco -Force
 
 #Copy the Installed Modules into the Output path for later on when we zip the contents
-Copy-Item 'C:\Program Files\WindowsPowerShell\Modules\cChoco' -Recurse -Destination $ProjectRoot -Verbose
+Copy-Item 'C:\Program Files\WindowsPowerShell\Modules\cChoco' -Recurse -Destination $ProjectRoot

@@ -2,14 +2,13 @@ configuration Main
 {
 
 Param (
-    $BeertimeAPIKey = $Env:beertimeAPIkey
+    $BeertimeAPIKey = $Env:beertimeAPIkey,
     $DatadogAPIKey = $Env:datadogAPIkey
 )
 
 Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
 Import-DscResource -ModuleName cChoco
 Import-DscResource -Name MSFT_xRemoteFile -ModuleName xPSDesiredStateConfiguration
-
 
 node $AllNodes.NodeName
     {
