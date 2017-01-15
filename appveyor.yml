@@ -3,6 +3,12 @@ skip_commits:
 
 os: "WMF 5"
 
+environment:
+  beertimeAPIkey:
+    secure: p86949m++yPE0uq7wPCarmuOS4+udI3BgcYC/77apSrVtXgK4NMEmVpWrRbUURh1
+  datadogAPIkey:
+    secure: lxfm20g7y9I+CA5l/PEqgf+eNRMNb7NbrFJUTkFg4qbRSMAzoc+7Rhxo7iXHLf3Z
+
 install:
   - ps: .\developers-world\demo\Appveyor\Install.ps1
 
