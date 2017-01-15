@@ -27,9 +27,8 @@ branches:
   only:
     - master
 
-artifacts:
-  - path: .\developers-world\demo\Appveyor\Output\Mofs.zip
-    name: Mofs.zip
+after_build:
+  - ps: Get-ChildItem Mofs.zip | Push-AppveyorArtifact
 
 deploy:
   provider: S3
