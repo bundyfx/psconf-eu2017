@@ -20,8 +20,8 @@ node $AllNodes.NodeName
                 {
                     cChocoPackageInstaller ChocoPackages
                     {
-                      Name        = $Package
-                      AutoUpgrade = $True
+                      Name      = $Package
+                      Ensure    = 'Present'
                     }
                 }
                 xRemoteFile datadog
@@ -34,7 +34,7 @@ node $AllNodes.NodeName
                     Ensure      = "Present"
                     Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Name        = "Datadog"
-                    ProductId   = "/qn /i APIKEY="$DatadogAPIKey" TAGS="$Node.DatadogTags""
+                    ProductId   = "/qn /i APIKEY=$($Node.DatadogAPIKey) TAGS=$($Node.DatadogTags)"
                     DependsOn   = "[xRemoteFile]datadog"
                 }
                 xEnvironment brewAPIkey
@@ -50,8 +50,8 @@ node $AllNodes.NodeName
                 {
                     cChocoPackageInstaller ChocoPackages
                     {
-                      Name        = $Package
-                      AutoUpgrade = $True
+                      Name   = $Package
+                      Ensure = 'Present'
                     }
                 }
                 xRemoteFile datadog
@@ -64,7 +64,7 @@ node $AllNodes.NodeName
                     Ensure      = "Present"
                     Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Name        = "Datadog"
-                    ProductId   = "/qn /i APIKEY="$DatadogAPIKey" TAGS="$Node.DatadogTags""
+                    ProductId   = "/qn /i APIKEY='$($Node.DatadogAPIKey)' TAGS='$($Node.DatadogTags)'"
                     DependsOn   = "[xRemoteFile]datadog"
                 }
             }
