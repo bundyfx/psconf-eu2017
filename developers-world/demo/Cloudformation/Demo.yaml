@@ -1,0 +1,84 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: PS Conf EU 2017 Demo Stack
+
+Resources:
+  beertimeEC21:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-e1f6dc92
+      InstanceType: t2.micro
+      KeyName: Flynn
+      SubnetId: subnet-085b727e
+      SecurityGroupIds:
+        - Ref: InstanceSecurityGroup
+      Tags:
+       - Key: Application
+         Value: Beertime
+       - Key: Environment
+         Value: Production
+      UserData:
+          Fn::Base64: !Sub |
+              "<powershell>"
+              "powershell.exe gps | Out-file C:\test.txt"
+              "</powershell>"
+
+  beertimeEC22:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-e1f6dc92
+      InstanceType: t2.micro
+      KeyName: Flynn
+      SubnetId: subnet-50300134
+      SecurityGroupIds:
+        - Ref: InstanceSecurityGroup
+      Tags:
+       - Key: Application
+         Value: Beertime
+       - Key: Environment
+         Value: Production
+      UserData:
+          Fn::Base64: !Sub |
+              "<powershell>"
+              "powershell.exe gps | Out-file C:\test.txt"
+              "</powershell>"
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow http to client host
+      VpcId: vpc-8beeb5ef
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '3389'
+        ToPort: '3389'
+        CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+
+  MyLoadBalancer:
+    Type: AWS::ElasticLoadBalancing::LoadBalancer
+    Properties:
+      Subnets:
+      - subnet-085b727e
+      - subnet-50300134
+      Instances:
+      - Ref: beertimeEC21
+      - Ref: beertimeEC22
+      Listeners:
+      - LoadBalancerPort: '80'
+        InstancePort: '5000'
+        Protocol: HTTP
+      HealthCheck:
+        Target: HTTP:5000/
+        HealthyThreshold: '3'
+        UnhealthyThreshold: '5'
+        Interval: '30'
+        Timeout: '5'
