@@ -2,8 +2,8 @@ configuration Main
 {
 
 Param (
-    $BeertimeAPIKey = $Env:beertimeAPIkey,
-    $DatadogAPIKey = $Env:datadogAPIkey
+    $BeertimeAPIKey,
+    $DatadogAPIKey
 )
 
 Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
@@ -34,14 +34,14 @@ node $AllNodes.NodeName
                     Ensure      = "Present"
                     Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Name        = "Datadog"
-                    ProductId   = "/qn /i APIKEY=$($Node.DatadogAPIKey) TAGS=$($Node.DatadogTags)"
+                    ProductId   = "/qn /i APIKEY=$($DatadogAPIKey) TAGS=$($Node.DatadogTags -join ',')"
                     DependsOn   = "[xRemoteFile]datadog"
                 }
                 xEnvironment brewAPIkey
                 {
                     Ensure = "Present"
                     Name = "apikey"
-                    Value = $YumtopAPIKey
+                    Value = $BeertimeAPIKey
                 }
             }
             'gopher-world'
@@ -64,7 +64,7 @@ node $AllNodes.NodeName
                     Ensure      = "Present"
                     Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Name        = "Datadog"
-                    ProductId   = "/qn /i APIKEY='$($Node.DatadogAPIKey)' TAGS='$($Node.DatadogTags)'"
+                    ProductId   = "/qn /i APIKEY='$($DatadogAPIKey)' TAGS='$($Node.DatadogTags)'"
                     DependsOn   = "[xRemoteFile]datadog"
                 }
             }
