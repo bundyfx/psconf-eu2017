@@ -1,9 +1,6 @@
 $Timestamp = Get-date -f yyyy_MM_dd-hh-mm-ss
 Start-Transcript -Path C:\Userdata_$Timestamp.txt
 
-#Install Choco
-curl https://chocolatey.org/install.ps1 -UseBasicParsing | iex
-
 #Move required modules into PSModulePath
 Move-Item C:\windows\temp\cChoco\, C:\windows\temp\xPSDesiredStateConfiguration\ -Destination 'C:\Program Files\WindowsPowerShell\Modules\'
 
@@ -21,7 +18,7 @@ Set-Alias -name npm -value 'C:\Program Files\nodejs\npm.cmd'
 Set-Alias -name node -value 'C:\Program Files\nodejs\node.exe'
 
 git clone https://github.com/bundyfx/psconf-eu2017-beertime.git C:\
-cd C:\psconf-eu2017-beertime
+Set-Location C:\psconf-eu2017-beertime
 npm install
 
 #Stop all transcription

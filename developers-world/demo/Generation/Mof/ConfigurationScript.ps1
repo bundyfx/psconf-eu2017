@@ -16,12 +16,17 @@ node $AllNodes.NodeName
         {
             'beertime'
             {
+                cChocoInstaller InstallChoco
+                {
+                    InstallDir = "c:\choco"
+                }
                 Foreach ($Package in $node.Packages)
                 {
                     cChocoPackageInstaller "$Package"
                     {
                       Name      = $Package
                       Ensure    = 'Present'
+                      DependsOn = '[cChocoInstaller]installChoco'
                     }
                 }
                 xRemoteFile datadog
@@ -53,6 +58,7 @@ node $AllNodes.NodeName
                     {
                       Name   = $Package
                       Ensure = 'Present'
+                      DependsOn = '[cChocoInstaller]installChoco'
                     }
                 }
                 xRemoteFile datadog
