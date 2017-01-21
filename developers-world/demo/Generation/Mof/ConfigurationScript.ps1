@@ -26,7 +26,7 @@ node $AllNodes.NodeName
                     {
                       Name      = $Package
                       Ensure    = 'Present'
-                      DependsOn = '[cChocoInstaller]installChoco'
+                      DependsOn = '[cChocoInstaller]InstallChoco'
                     }
                 }
                 xRemoteFile datadog
