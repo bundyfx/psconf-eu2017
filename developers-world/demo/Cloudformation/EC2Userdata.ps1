@@ -17,8 +17,9 @@ Set-Alias -name git -value 'C:\Program Files\Git\bin\git.exe'
 Set-Alias -name npm -value 'C:\Program Files\nodejs\npm.cmd'
 Set-Alias -name node -value 'C:\Program Files\nodejs\node.exe'
 
-git clone https://github.com/bundyfx/psconf-eu2017-beertime.git C:\
-Set-Location C:\psconf-eu2017-beertime
+mkdir C:\App
+git clone https://github.com/bundyfx/psconf-eu2017-beertime.git C:\App
+Set-Location C:\App
 npm install
 
 #Stop all transcription

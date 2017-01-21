@@ -19,13 +19,13 @@ Resources:
        - Key: Environment
          Value: Production
       UserData:
-          Fn::Base64: !Sub |
-              "<powershell>"
-              "Read-S3Object -BucketName powershell-dsc-mofs -Key Mofs.zip -File c:\mofs.zip"
-              "Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp"
-              "Set-Location C:\windows\Temp"
-              ". .\Ec2UserData.ps1"
-              "</powershell>"
+          'Fn::Base64': !Sub |
+              <powershell>
+              Read-S3Object -BucketName powershell-dsc-mofs -Key Mofs.zip -File c:\mofs.zip
+              Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp
+              Set-Location C:\windows\Temp
+              . .\Ec2UserData.ps1
+              </powershell>
 
   beertimeEC22:
     Type: AWS::EC2::Instance
@@ -43,13 +43,13 @@ Resources:
        - Key: Environment
          Value: Production
       UserData:
-          Fn::Base64: !Sub |
-              "<powershell>"
-              "Read-S3Object -BucketName powershell-dsc-mofs -Key Mofs.zip -File c:\mofs.zip"
-              "Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp"
-              "Set-Location C:\windows\Temp"
-              ". .\Ec2UserData.ps1"
-              "</powershell>"
+          'Fn::Base64': !Sub |
+              <powershell>
+              Read-S3Object -BucketName powershell-dsc-mofs -Key Mofs.zip -File c:\mofs.zip
+              Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp
+              Set-Location C:\windows\Temp
+              . .\Ec2UserData.ps1
+              </powershell>
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -66,37 +66,23 @@ Resources:
         ToPort: '3389'
         CidrIp: 0.0.0.0/0
 
-  beerBalancer:
-    Type: AWS::ElasticLoadBalancing::LoadBalancer
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Subnets:
       - subnet-085b727e
       - subnet-50300134
-      Instances:
-      - Ref: beertimeEC21
-      - Ref: beertimeEC22
-      Listeners:
-      - LoadBalancerPort: '80'
-        InstancePort: '5000'
-        Protocol: HTTP
-      HealthCheck:
-        Target: HTTP:5000/
-        HealthyThreshold: '2'
-        UnhealthyThreshold: '2'
-        Interval: '10'
-        Timeout: '5'
+
 
   ALBListener:
     Type : AWS::ElasticLoadBalancingV2::Listener
     Properties:
       DefaultActions:
-        Type: forward
-        TargetGroupArn:
-          Ref: ALBTargetGroup
-        LoadBalancerArn:
-          Ref: beerBalancer
-        Port: 5000
-        Protocol: HTTP
+        - Type: forward
+          TargetGroupArn: !Ref "ALBTargetGroup"
+      LoadBalancerArn: !Ref "ApplicationLoadBalancer"
+      Port: 5000
+      Protocol: HTTP
 
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup

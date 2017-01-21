@@ -38,8 +38,8 @@ node $AllNodes.NodeName
                 {
                     Ensure      = "Present"
                     Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
-                    Name        = "Datadog"
-                    Arguments   = "/qn /i APIKEY='$($DatadogAPIKey)' TAGS='$($Node.DatadogTags -join ',')'"
+                    Name        = "Datadog Agent"
+                    Arguments   = "APIKEY='$($DatadogAPIKey)' TAGS='$($Node.DatadogTags -join ',')'"
                     DependsOn   = "[xRemoteFile]datadog"
                     ProductId   = "341AEBAA-5553-4EE1-9ED5-C2D0436EE43D"
                 }
