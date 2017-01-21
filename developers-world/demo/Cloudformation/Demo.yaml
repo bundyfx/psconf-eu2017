@@ -8,6 +8,7 @@ Resources:
     Properties:
       ImageId: ami-e1f6dc92
       InstanceType: t2.micro
+      IamInstanceProfile: s3GetAccess
       KeyName: Flynn
       SubnetId: subnet-085b727e
       SecurityGroupIds:
@@ -20,7 +21,10 @@ Resources:
       UserData:
           Fn::Base64: !Sub |
               "<powershell>"
-              "powershell.exe gps | Out-file C:\test.txt"
+              "Read-S3Object -BucketName powershell-dsc-mofs -Key Mofs.zip -File c:\mofs.zip"
+              "Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp"
+              "Set-Location C:\windows\Temp"
+              ". .\Ec2UserData.ps1"
               "</powershell>"
 
   beertimeEC22:
@@ -28,6 +32,7 @@ Resources:
     Properties:
       ImageId: ami-e1f6dc92
       InstanceType: t2.micro
+      IamInstanceProfile: s3GetAccess
       KeyName: Flynn
       SubnetId: subnet-50300134
       SecurityGroupIds:
@@ -40,7 +45,10 @@ Resources:
       UserData:
           Fn::Base64: !Sub |
               "<powershell>"
-              "powershell.exe gps | Out-file C:\test.txt"
+              "Read-S3Object -BucketName powershell-dsc-mofs -Key Mofs.zip -File c:\mofs.zip"
+              "Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp"
+              "Set-Location C:\windows\Temp"
+              ". .\Ec2UserData.ps1"
               "</powershell>"
 
   InstanceSecurityGroup:
@@ -50,20 +58,15 @@ Resources:
       VpcId: vpc-8beeb5ef
       SecurityGroupIngress:
       - IpProtocol: tcp
-        FromPort: '80'
-        ToPort: '80'
+        FromPort: '5000'
+        ToPort: '5000'
         CidrIp: 0.0.0.0/0
       - IpProtocol: tcp
         FromPort: '3389'
         ToPort: '3389'
         CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
-      - IpProtocol: tcp
-        FromPort: '80'
-        ToPort: '80'
-        CidrIp: 0.0.0.0/0
 
-  MyLoadBalancer:
+  beerBalancer:
     Type: AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
       Subnets:
@@ -78,7 +81,30 @@ Resources:
         Protocol: HTTP
       HealthCheck:
         Target: HTTP:5000/
-        HealthyThreshold: '3'
-        UnhealthyThreshold: '5'
-        Interval: '30'
+        HealthyThreshold: '2'
+        UnhealthyThreshold: '2'
+        Interval: '10'
         Timeout: '5'
+
+  ALBListener:
+    Type : AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        Type: forward
+        TargetGroupArn:
+          Ref: ALBTargetGroup
+        LoadBalancerArn:
+          Ref: beerBalancer
+        Port: 5000
+        Protocol: HTTP
+
+  ALBTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 10
+      UnhealthyThresholdCount: 2
+      HealthCheckPath: /
+      Name: BeerChecking
+      Port: 5000
+      Protocol: HTTP
+      VpcId: vpc-8beeb5ef

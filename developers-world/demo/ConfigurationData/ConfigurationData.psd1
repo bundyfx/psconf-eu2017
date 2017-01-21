@@ -1,11 +1,11 @@
 @{
     AllNodes = @(
         @{
-            NodeName = "yumtop"
-            Role = "yumtop"
+            NodeName = "beertime"
+            Role = "beertime"
             Packages = 'git','nodejs'
             DatadogURI = 'https://s3.amazonaws.com/ddagent-windows-stable/ddagent-cli.msi'
-            DatadogTags = 'application:yumtop','environment:production'
+            DatadogTags = 'application:beertime','environment:production'
          },
         @{
             NodeName = "gopher-world"

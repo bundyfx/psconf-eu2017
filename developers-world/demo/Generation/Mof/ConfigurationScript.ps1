@@ -14,7 +14,7 @@ node $AllNodes.NodeName
     {
         switch ($Node.Role)
         {
-            'yumtop'
+            'beertime'
             {
                 Foreach ($Package in $node.Packages)
                 {
@@ -34,8 +34,9 @@ node $AllNodes.NodeName
                     Ensure      = "Present"
                     Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Name        = "Datadog"
-                    ProductId   = "/qn /i APIKEY=$($DatadogAPIKey) TAGS=$($Node.DatadogTags -join ',')"
+                    Arguments   = "/qn /i APIKEY='$($DatadogAPIKey)' TAGS='$($Node.DatadogTags -join ',')'"
                     DependsOn   = "[xRemoteFile]datadog"
+                    ProductId   = "341AEBAA-5553-4EE1-9ED5-C2D0436EE43D"
                 }
                 xEnvironment brewAPIkey
                 {
@@ -64,8 +65,9 @@ node $AllNodes.NodeName
                     Ensure      = "Present"
                     Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Name        = "Datadog"
-                    ProductId   = "/qn /i APIKEY='$($DatadogAPIKey)' TAGS='$($Node.DatadogTags)'"
+                    Arguments   = "/qn /i APIKEY='$($DatadogAPIKey)' TAGS='$($Node.DatadogTags -join ',')'"
                     DependsOn   = "[xRemoteFile]datadog"
+                    ProductId   = "341AEBAA-5553-4EE1-9ED5-C2D0436EE43D"
                 }
             }
         }
