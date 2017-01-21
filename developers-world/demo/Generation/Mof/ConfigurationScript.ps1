@@ -52,13 +52,17 @@ node $AllNodes.NodeName
             }
             'gopher-world'
             {
+                cChocoInstaller InstallChoco
+                {
+                    InstallDir = "c:\choco"
+                }
                 Foreach ($Package in $node.Packages)
                 {
                     cChocoPackageInstaller "$Package"
                     {
                       Name   = $Package
                       Ensure = 'Present'
-                      DependsOn = '[cChocoInstaller]installChoco'
+                      DependsOn = '[cChocoInstaller]InstallChoco'
                     }
                 }
                 xRemoteFile datadog
