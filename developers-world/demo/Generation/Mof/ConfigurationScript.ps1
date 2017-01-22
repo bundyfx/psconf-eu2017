@@ -8,7 +8,7 @@ Param (
 
 Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
 Import-DscResource -ModuleName cChoco
-Import-DscResource -Name MSFT_xRemoteFile, xEnvironment -ModuleName xPSDesiredStateConfiguration
+Import-DscResource -Name MSFT_xRemoteFile, xEnvironment, xPackage -ModuleName xPSDesiredStateConfiguration
 
 node $AllNodes.NodeName
     {
@@ -34,7 +34,7 @@ node $AllNodes.NodeName
                     DestinationPath = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Uri = $node.DatadogURI
                 }
-                Package datadogInstall
+                xPackage datadogInstall
                 {
                     Ensure      = "Present"
                     Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
@@ -70,11 +70,11 @@ node $AllNodes.NodeName
                     DestinationPath = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Uri = $node.DatadogURI
                 }
-                Package datadogInstall
+                xPackage datadogInstall
                 {
                     Ensure      = "Present"
                     Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
-                    Name        = "Datadog"
+                    Name        = "Datadog Agent"
                     Arguments   = "/qn /i APIKEY='$($DatadogAPIKey)' TAGS='$($Node.DatadogTags -join ',')'"
                     DependsOn   = "[xRemoteFile]datadog"
                     ProductId   = "341AEBAA-5553-4EE1-9ED5-C2D0436EE43D"
