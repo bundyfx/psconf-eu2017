@@ -2,8 +2,7 @@ configuration Main
 {
 
 Param (
-    $BeertimeAPIKey,
-    $DatadogAPIKey
+    $BeertimeAPIKey
 )
 
 Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
@@ -35,17 +34,6 @@ node $AllNodes.NodeName
                       DependsOn = '[cChocoInstaller]InstallChoco'
                     }
                 }
-                xRemoteFile datadog
-                {
-                    DestinationPath = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
-                    Uri = $node.DatadogURI
-                }
-                xEnvironment datadogAPIkey
-                {
-                    Ensure = "Present"
-                    Name = "datadogapikey"
-                    Value = $DatadogAPIKey
-                }
                 xEnvironment brewAPIkey
                 {
                     Ensure = "Present"
@@ -73,17 +61,6 @@ node $AllNodes.NodeName
                       Ensure = 'Present'
                       DependsOn = '[cChocoInstaller]InstallChoco'
                     }
-                }
-                xRemoteFile datadog
-                {
-                    DestinationPath = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
-                    Uri = $node.DatadogURI
-                }
-                xEnvironment datadogAPIkey
-                {
-                    Ensure = "Present"
-                    Name = "datadogapikey"
-                    Value = $DatadogAPIKey
                 }
             }
         }
