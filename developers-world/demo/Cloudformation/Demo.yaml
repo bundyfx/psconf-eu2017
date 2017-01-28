@@ -1,7 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-
 Description: PS Conf EU 2017 Demo Stack
-
 Resources:
   LaunchConfiguration:
     Type: "AWS::AutoScaling::LaunchConfiguration"
@@ -44,7 +42,6 @@ Resources:
        - Key: Environment
          Value: Production
          PropagateAtLaunch: true
-
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -67,7 +64,6 @@ Resources:
         FromPort: '443'
         ToPort: '443'
         CidrIp: 0.0.0.0/0
-
   ApplicationLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -76,7 +72,6 @@ Resources:
       - subnet-50300134
       SecurityGroups:
         - Ref: InstanceSecurityGroup
-
   ALBListener:
     Type : AWS::ElasticLoadBalancingV2::Listener
     Properties:
@@ -86,7 +81,6 @@ Resources:
       LoadBalancerArn: !Ref "ApplicationLoadBalancer"
       Port: 80
       Protocol: HTTP
-
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:

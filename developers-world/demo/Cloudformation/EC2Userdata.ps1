@@ -18,7 +18,7 @@ start-process "C:\Program Files\Git\bin\git.exe" -ArgumentList "clone https://gi
 Set-Location C:\App
 start-process "C:\Program Files\nodejs\npm.cmd" -ArgumentList "install" -Wait
 
-Write-Output $env:apikey
+get-childitem ENV: 
 
 #Stop all transcription
 Stop-Transcript
