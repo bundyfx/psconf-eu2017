@@ -30,6 +30,6 @@ Stop-Transcript
 #Write transcription to S3
 Write-S3Object -BucketName powershell-dsc-mofs -File C:\Userdata_$Timestamp.txt
 
-start npm start
+start-process npm start
 
 exit 0
