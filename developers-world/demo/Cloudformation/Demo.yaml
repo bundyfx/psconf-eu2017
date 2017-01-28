@@ -3,21 +3,16 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: PS Conf EU 2017 Demo Stack
 
 Resources:
-  beertimeEC21:
-    Type: AWS::EC2::Instance
+  LaunchConfiguration:
+    Type: "AWS::AutoScaling::LaunchConfiguration"
     Properties:
-      ImageId: ami-e1f6dc92
-      InstanceType: t2.micro
+      AssociatePublicIpAddress: true
       IamInstanceProfile: s3GetAccess
-      KeyName: Flynn
-      SubnetId: subnet-085b727e
-      SecurityGroupIds:
-        - Ref: InstanceSecurityGroup
-      Tags:
-       - Key: Application
-         Value: Beertime
-       - Key: Environment
-         Value: Production
+      ImageId: ami-e1f6dc92
+      InstanceType: "t2.micro"
+      KeyName: "Flynn"
+      SecurityGroups:
+        - !Ref "InstanceSecurityGroup"
       UserData:
           'Fn::Base64': !Sub |
               <powershell>
@@ -26,30 +21,28 @@ Resources:
               Set-Location C:\windows\Temp
               . .\Ec2UserData.ps1
               </powershell>
-
-  beertimeEC22:
-    Type: AWS::EC2::Instance
+  AutoScalingGroup:
+    Type: "AWS::AutoScaling::AutoScalingGroup"
     Properties:
-      ImageId: ami-e1f6dc92
-      InstanceType: t2.micro
-      IamInstanceProfile: s3GetAccess
-      KeyName: Flynn
-      SubnetId: subnet-50300134
-      SecurityGroupIds:
-        - Ref: InstanceSecurityGroup
+      AvailabilityZones:
+        - eu-west-1a
+        - eu-west-1c
+      DesiredCapacity: 2
+      LaunchConfigurationName: !Ref "LaunchConfiguration"
+      MinSize: 2
+      MaxSize: 2
+      TargetGroupARNs:
+        - !Ref "ALBTargetGroup"
+      VPCZoneIdentifier:
+        - subnet-085b727e
+        - subnet-50300134
       Tags:
        - Key: Application
          Value: Beertime
+         PropagateAtLaunch: true
        - Key: Environment
          Value: Production
-      UserData:
-          'Fn::Base64': !Sub |
-              <powershell>
-              Read-S3Object -BucketName powershell-dsc-mofs -Key Mofs.zip -File c:\mofs.zip
-              Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp
-              Set-Location C:\windows\Temp
-              . .\Ec2UserData.ps1
-              </powershell>
+         PropagateAtLaunch: true
 
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -91,7 +84,6 @@ Resources:
           TargetGroupArn: !Ref "ALBTargetGroup"
       LoadBalancerArn: !Ref "ApplicationLoadBalancer"
       Port: 80
-      Name: beer
       Protocol: HTTP
 
   ALBTargetGroup:
