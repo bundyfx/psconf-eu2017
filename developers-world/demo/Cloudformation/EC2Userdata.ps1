@@ -18,11 +18,12 @@ start-process "C:\Program Files\Git\bin\git.exe" -ArgumentList "clone https://gi
 Set-Location C:\App
 start-process "C:\Program Files\nodejs\npm.cmd" -ArgumentList "install" -Wait
 
+Write-Output $env:apikey
+
 #Stop all transcription
 Stop-Transcript
 
 #Write transcription to S3
 Write-S3Object -BucketName powershell-dsc-mofs -File C:\Userdata_$Timestamp.txt
-start-process "C:\Program Files\nodejs\node.exe" -ArgumentList "index.js" -Wait
 
 exit 0

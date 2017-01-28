@@ -20,6 +20,7 @@ Resources:
               Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp
               Set-Location C:\windows\Temp
               . .\Ec2UserData.ps1
+              start-process "C:\Program Files\nodejs\node.exe" -ArgumentList "index.js"
               </powershell>
   AutoScalingGroup:
     Type: "AWS::AutoScaling::AutoScalingGroup"
