@@ -91,6 +91,7 @@ Resources:
           TargetGroupArn: !Ref "ALBTargetGroup"
       LoadBalancerArn: !Ref "ApplicationLoadBalancer"
       Port: 80
+      Name: beer
       Protocol: HTTP
 
   ALBTargetGroup:
