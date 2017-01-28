@@ -17,12 +17,12 @@ Set-Alias -name git -value 'C:\Program Files\Git\bin\git.exe'
 Set-Alias -name npm -value 'C:\Program Files\nodejs\npm.cmd'
 
 #Datadog install
-& msiexec /qn /i C:\Windows\Temp\ddagent-cli.msi APIKEY="$Env:datadogAPIkey" HOSTNAME="$Env:ComputerName" TAGS="mytag1,mytag2"
+& msiexec /qn /i C:\Windows\Temp\datadog\ddagent-cli.msi APIKEY="$Env:datadogAPIkey" HOSTNAME="$Env:ComputerName" TAGS="mytag1,mytag2"
 
 #Clone repo and install node modules
-& git clone https://github.com/bundyfx/psconf-eu2017-beertime.git C:\App
+start-process git -ArgumentList "clone https://github.com/bundyfx/psconf-eu2017-beertime.git" -Wait
 Set-Location C:\App
-& npm install
+start-process npm -ArgumentList "install" -Wait
 
 #Stop all transcription
 Stop-Transcript

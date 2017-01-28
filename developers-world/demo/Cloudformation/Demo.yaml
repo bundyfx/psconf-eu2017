@@ -54,7 +54,7 @@ Resources:
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Allow http to client host
+      GroupDescription: Allow access to app from alb and rdp
       VpcId: vpc-8beeb5ef
       SecurityGroupIngress:
       - IpProtocol: tcp
@@ -72,6 +72,7 @@ Resources:
       Subnets:
       - subnet-085b727e
       - subnet-50300134
+      SecurityGroups: !Ref "InstanceSecurityGroup"
 
   ALBListener:
     Type : AWS::ElasticLoadBalancingV2::Listener
