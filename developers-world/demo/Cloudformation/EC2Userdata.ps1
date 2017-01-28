@@ -15,12 +15,14 @@ Start-DscConfiguration -path C:\windows\temp\ -Verbose -wait -force -ComputerNam
 
 Set-Alias -name git -value 'C:\Program Files\Git\bin\git.exe'
 Set-Alias -name npm -value 'C:\Program Files\nodejs\npm.cmd'
-Set-Alias -name node -value 'C:\Program Files\nodejs\node.exe'
 
-mkdir C:\App
-git clone https://github.com/bundyfx/psconf-eu2017-beertime.git C:\App
+#Datadog install
+& msiexec /qn /i C:\Windows\Temp\ddagent-cli.msi APIKEY="$Env:datadogAPIkey" HOSTNAME="$Env:ComputerName" TAGS="mytag1,mytag2"
+
+#Clone repo and install node modules
+& git clone https://github.com/bundyfx/psconf-eu2017-beertime.git C:\App
 Set-Location C:\App
-npm install
+& npm install
 
 #Stop all transcription
 Stop-Transcript
@@ -28,4 +30,6 @@ Stop-Transcript
 #Write transcription to S3
 Write-S3Object -BucketName powershell-dsc-mofs -File C:\Userdata_$Timestamp.txt
 
-npm start
+start npm start
+
+exit 0

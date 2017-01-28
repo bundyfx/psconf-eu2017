@@ -8,7 +8,7 @@ Param (
 
 Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
 Import-DscResource -ModuleName cChoco
-Import-DscResource -Name MSFT_xRemoteFile, xEnvironment, xPackage -ModuleName xPSDesiredStateConfiguration
+Import-DscResource -Name MSFT_xRemoteFile, xEnvironment -ModuleName xPSDesiredStateConfiguration
 
 node $AllNodes.NodeName
     {
@@ -16,6 +16,12 @@ node $AllNodes.NodeName
         {
             'beertime'
             {
+                File AppDir
+                {
+                  Type = 'Directory'
+                  Ensure = 'Present'
+                  DestinationPath = 'C:\App'
+                }
                 cChocoInstaller InstallChoco
                 {
                     InstallDir = "c:\choco"
@@ -34,14 +40,11 @@ node $AllNodes.NodeName
                     DestinationPath = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Uri = $node.DatadogURI
                 }
-                xPackage datadogInstall
+                xEnvironment datadogAPIkey
                 {
-                    Ensure      = "Present"
-                    Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
-                    Name        = "Datadog Agent"
-                    Arguments   = "APIKEY='$($DatadogAPIKey)' TAGS='$($Node.DatadogTags -join ',')'"
-                    DependsOn   = "[xRemoteFile]datadog"
-                    ProductId   = "341AEBAA-5553-4EE1-9ED5-C2D0436EE43D"
+                    Ensure = "Present"
+                    Name = "datadogapikey"
+                    Value = $DatadogAPIKey
                 }
                 xEnvironment brewAPIkey
                 {
@@ -52,6 +55,12 @@ node $AllNodes.NodeName
             }
             'gopher-world'
             {
+                File AppDir
+                {
+                  Type = 'Directory'
+                  Ensure = 'Present'
+                  DestinationPath = 'C:\App'
+                }
                 cChocoInstaller InstallChoco
                 {
                     InstallDir = "c:\choco"
@@ -70,14 +79,11 @@ node $AllNodes.NodeName
                     DestinationPath = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
                     Uri = $node.DatadogURI
                 }
-                xPackage datadogInstall
+                xEnvironment datadogAPIkey
                 {
-                    Ensure      = "Present"
-                    Path        = 'C:\Windows\Temp\Datadog\ddagent-cli.msi'
-                    Name        = "Datadog Agent"
-                    Arguments   = "/qn /i APIKEY='$($DatadogAPIKey)' TAGS='$($Node.DatadogTags -join ',')'"
-                    DependsOn   = "[xRemoteFile]datadog"
-                    ProductId   = "341AEBAA-5553-4EE1-9ED5-C2D0436EE43D"
+                    Ensure = "Present"
+                    Name = "datadogapikey"
+                    Value = $DatadogAPIKey
                 }
             }
         }

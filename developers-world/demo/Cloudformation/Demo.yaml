@@ -73,7 +73,6 @@ Resources:
       - subnet-085b727e
       - subnet-50300134
 
-
   ALBListener:
     Type : AWS::ElasticLoadBalancingV2::Listener
     Properties:
