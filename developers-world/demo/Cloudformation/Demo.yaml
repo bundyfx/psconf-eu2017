@@ -65,6 +65,14 @@ Resources:
         FromPort: '3389'
         ToPort: '3389'
         CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+      - IpProtocol: tcp
+        FromPort: '443'
+        ToPort: '443'
+        CidrIp: 0.0.0.0/0
 
   ApplicationLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -72,7 +80,8 @@ Resources:
       Subnets:
       - subnet-085b727e
       - subnet-50300134
-      SecurityGroups: !Ref "InstanceSecurityGroup"
+      SecurityGroups:
+        - Ref: InstanceSecurityGroup
 
   ALBListener:
     Type : AWS::ElasticLoadBalancingV2::Listener
@@ -81,7 +90,7 @@ Resources:
         - Type: forward
           TargetGroupArn: !Ref "ALBTargetGroup"
       LoadBalancerArn: !Ref "ApplicationLoadBalancer"
-      Port: 5000
+      Port: 80
       Protocol: HTTP
 
   ALBTargetGroup:
