@@ -6,7 +6,7 @@ Main -OutputPath $ProjectRoot -ConfigurationData '.\developers-world\demo\Config
 
 #Create a Zip from the Mof output (Include Modules)
 Get-Item -Path "$ProjectRoot\developers-world\demo\Cloudformation\EC2Userdata.ps1",
-               "$ProjectRoot\beertime.mof","$ProjectRoot\gopher-world.mof",
+               "$ProjectRoot\beertime.mof",
                "$ProjectRoot\cChoco",
                "$ProjectRoot\xPSDesiredStateConfiguration" | Compress-Archive -DestinationPath $ProjectRoot\Mofs.zip
 
