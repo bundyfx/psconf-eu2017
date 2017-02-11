@@ -2,7 +2,8 @@ configuration Main
 {
 
 Param (
-    $BeertimeAPIKey
+    $BeertimeAPIKey,
+    $OctopusApiKey
 )
 
 Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
@@ -39,28 +40,6 @@ node $AllNodes.NodeName
                     Ensure = "Present"
                     Name = "apikey"
                     Value = $BeertimeAPIKey
-                }
-            }
-            'gopher-world'
-            {
-                File AppDir
-                {
-                  Type = 'Directory'
-                  Ensure = 'Present'
-                  DestinationPath = 'C:\App'
-                }
-                cChocoInstaller InstallChoco
-                {
-                    InstallDir = "c:\choco"
-                }
-                Foreach ($Package in $node.Packages)
-                {
-                    cChocoPackageInstaller "$Package"
-                    {
-                      Name   = $Package
-                      Ensure = 'Present'
-                      DependsOn = '[cChocoInstaller]InstallChoco'
-                    }
                 }
             }
         }

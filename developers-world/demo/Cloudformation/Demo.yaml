@@ -8,7 +8,7 @@ Resources:
       IamInstanceProfile: s3GetAccess
       ImageId: ami-e1f6dc92
       InstanceType: "t2.micro"
-      KeyName: "Flynn"
+      KeyName: "Flynn-mac"
       SecurityGroups:
         - !Ref "InstanceSecurityGroup"
       UserData:
@@ -18,7 +18,6 @@ Resources:
               Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp
               Set-Location C:\windows\Temp
               . .\Ec2UserData.ps1
-              start-process "C:\Program Files\nodejs\node.exe" -ArgumentList "index.js"
               </powershell>
   AutoScalingGroup:
     Type: "AWS::AutoScaling::AutoScalingGroup"
