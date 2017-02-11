@@ -17,6 +17,8 @@ Resources:
               Read-S3Object -BucketName powershell-dsc-mofs -Key Mofs.zip -File c:\mofs.zip
               Expand-Archive C:\mofs.zip -DestinationPath C:\windows\Temp
               Set-Location C:\windows\Temp
+              Read-S3Object -BucketName aws-codedeploy-eu-west-1 -Key latest/codedeploy-agent.msi -File c:\windows\temp\codedeploy-agent.msi
+              Start-Process "C:\windows\temp\codedeploy-agent.msi" -ArgumentList '/qn'
               . .\Ec2UserData.ps1
               </powershell>
   AutoScalingGroup:
