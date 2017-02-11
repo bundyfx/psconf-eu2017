@@ -1,0 +1,2 @@
+Import-Module AWSPowerShell.NetCore
+
