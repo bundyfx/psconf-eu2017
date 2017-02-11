@@ -2,8 +2,7 @@ configuration Main
 {
 
 Param (
-    $BeertimeAPIKey,
-    $OctopusApiKey
+    $BeertimeAPIKey
 )
 
 Import-DscResource -ModuleName 'PSDesiredStateConfiguration'

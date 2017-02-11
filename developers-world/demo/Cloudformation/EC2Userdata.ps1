@@ -8,7 +8,7 @@ Move-Item C:\windows\temp\cChoco\, C:\windows\temp\xPSDesiredStateConfiguration\
 Read-S3Object -BucketName aws-codedeploy-eu-west-1 -Key latest/codedeploy-agent.msi -File c:\windows\temp\codedeploy-agent.msi
 
 #Installs CodeDeploy
-Start-Process "c:\temp\codedeploy-agent.msi" -ArgumentList '/quiet' -NoNewWindow -Wait
+Start-Process "c:\windows\temp\codedeploy-agent.msi" -ArgumentList '/quiet' -NoNewWindow -Wait
 
 #Temp <== remove this line later and change it with getting own tag etc
 Rename-Item C:\windows\temp\beertime.mof -NewName localhost.mof
