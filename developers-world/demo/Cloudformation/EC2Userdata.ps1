@@ -4,8 +4,20 @@ Start-Transcript -Path C:\Userdata_$Timestamp.txt
 #Move required modules into PSModulePath
 Move-Item C:\windows\temp\cChoco\, C:\windows\temp\xPSDesiredStateConfiguration\ -Destination 'C:\Program Files\WindowsPowerShell\Modules\'
 
+Function Get-CurrentInstanceTags(){
+
+    #Gets all instance tags for the current instance
+    $instanceId = curl "http://169.254.169.254/latest/meta-data/instance-id" -UseBasicParsing
+    $versionTag = Get-EC2Tag | Where-Object {$Psitem.ResourceId -eq $instanceId -and $Psitem.Key -notlike 'aws*'} | Select-Object Key, Value
+    return $versiontag
+}
+
+$CurrentTags = Get-CurrentInstanceTags
+
+[String]$Application = $CurrentTags.Where{$Psitem.Key -eq 'Application'}.Value
+
 #Temp <== remove this line later and change it with getting own tag etc
-Rename-Item C:\windows\temp\beertime.mof -NewName localhost.mof
+Rename-Item C:\windows\temp\$($Application).mof -NewName localhost.mof
 
 # Open up any required Ports
 New-NetFirewallRule -DisplayName 'Application port' -Direction Inbound -LocalPort 5000 -Protocol TCP -Action Allow -Verbose

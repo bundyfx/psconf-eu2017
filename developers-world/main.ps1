@@ -1,8 +1,14 @@
 powershell
 break
+# AWS Console
+# Appveyor Console
+# Github
+
+## Run new build of our Application in Appveyor
+# 3 mins
 
 Import-Module AWSPowerShell.NetCore
-Set-DefaulAwsRegion -Region 'eu-west-1'
+Set-DefaultAwsRegion -Region 'eu-west-1'
 
 ########################
 ###  Configuration   ###
@@ -17,7 +23,7 @@ Get-S3Object -BucketName powershell-dsc-mofs
 ###################################
 
 #Create new cloudformation stack
-New-CFNStack -StackName Demo -TemplateURL "https://s3-eu-west-1.amazonaws.com/cf-templates-qaogskw029mf-eu-west-1/demo.yaml" -Region 'eu-west-1'
+New-CFNStack -StackName Demo -TemplateURL "https://s3-eu-west-1.amazonaws.com/cf-templates-qaogskw029mf-eu-west-1/Demo.yaml" -Region 'eu-west-1'
 Get-CFNStack -StackName Demo
 
 # 5 minutes
@@ -32,7 +38,7 @@ Get-Childitem *.txt | Get-Content
 ###  App Deployment  ###
 ########################
 
-$Deploy = New-CDDeployment -ApplicationName beertime -GitHubLocation_Repository 'bundyfx/psconf-eu2017-beertime' -GitHubLocation_CommitId '04b43b136bfa4ff1e349f8b0ada6f29949613159' -DeploymentGroupName 'Production' -Revision_RevisionType Github
+$Deploy = New-CDDeployment -ApplicationName beertime -GitHubLocation_Repository 'bundyfx/psconf-eu2017-beertime' -GitHubLocation_CommitId '22b0869cc5d2ee0f33c188b573b54ee6ffbc325c' -DeploymentGroupName 'Production' -Revision_RevisionType Github
 Get-CdDeployment $Deploy
 
 #beertime dns name from load balancer
