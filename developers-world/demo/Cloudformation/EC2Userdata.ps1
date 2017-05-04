@@ -4,15 +4,15 @@ Start-Transcript -Path C:\Userdata_$Timestamp.txt
 #Move required modules into PSModulePath
 Move-Item C:\windows\temp\cChoco\, C:\windows\temp\xPSDesiredStateConfiguration\ -Destination 'C:\Program Files\WindowsPowerShell\Modules\'
 
-Function Get-CurrentInstanceTags(){
+Function Get-CurrentInstanceTag(){
 
     #Gets all instance tags for the current instance
-    $instanceId = curl "http://169.254.169.254/latest/meta-data/instance-id" -UseBasicParsing
+    $instanceId = Invoke-WebRequest "http://169.254.169.254/latest/meta-data/instance-id" -UseBasicParsing
     $versionTag = Get-EC2Tag | Where-Object {$Psitem.ResourceId -eq $instanceId -and $Psitem.Key -notlike 'aws*'} | Select-Object Key, Value
     return $versiontag
 }
 
-$CurrentTags = Get-CurrentInstanceTags
+$CurrentTags = Get-CurrentInstanceTag
 
 [String]$Application = $CurrentTags.Where{$Psitem.Key -eq 'Application'}.Value
 
